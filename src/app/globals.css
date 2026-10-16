@@ -1,10 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8f8f5;
-  --foreground: #101517;
-  --muted: #59616b;
+  --background: #f8f9f6;
+  --foreground: #111619;
+  --muted: #59636d;
   --accent: #b5f52b;
+  --line: #d9dfd9;
+  --page-gutter: clamp(24px, 4vw, 72px);
 }
 
 @theme inline {
@@ -12,12 +14,1148 @@
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-accent: var(--accent);
-  --font-sans: Arial, Helvetica, sans-serif;
-  --font-mono: "SFMono-Regular", Consolas, monospace;
+  --color-line: var(--line);
+  --font-sans: var(--font-manrope), Arial, sans-serif;
+  --font-mono: var(--font-dm-mono), monospace;
+  --font-handwriting: var(--font-caveat), cursive;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 112px;
+  }
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+    font-size: 16px;
+  }
+  ::selection {
+    @apply bg-accent text-foreground;
+  }
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+  a:focus-visible {
+    @apply rounded-sm outline-2 outline-offset-4 outline-foreground;
+  }
+}
+
+@layer components {
+  .site-shell {
+    @apply mx-auto;
+    width: calc(100% - 2 * var(--page-gutter));
+    max-width: 1680px;
+  }
+  .site-header {
+    @apply sticky top-0 z-40 grid items-center gap-8 border-b border-line;
+    grid-template-columns: 1fr auto 1fr;
+    width: 100%;
+    min-height: 88px;
+    padding: 16px var(--page-gutter);
+    background: #f8f9f6ee;
+    backdrop-filter: blur(18px);
+  }
+  .brand {
+    @apply inline-flex items-center whitespace-nowrap font-mono;
+    font-size: 17px;
+    letter-spacing: -0.045em;
+  }
+  .brand strong {
+    @apply font-medium;
+  }
+  .brand > span:last-child {
+    @apply text-muted;
+  }
+  .brand-code {
+    margin-right: 11px;
+    font-size: 0.95em;
+    letter-spacing: -0.09em;
+  }
+  .brand-link {
+    @apply justify-self-start;
+  }
+  .main-nav {
+    @apply flex items-center gap-9;
+  }
+  .main-nav a {
+    @apply relative flex min-h-11 items-center px-1 text-[13px] transition-colors hover:text-foreground;
+    color: #505a60;
+  }
+  .main-nav a::after {
+    @apply absolute right-1 bottom-1 left-1 h-0.5 origin-left scale-x-0 bg-foreground transition-transform content-[""];
+  }
+  .main-nav a:hover::after,
+  .main-nav a:focus-visible::after {
+    @apply scale-x-100;
+  }
+  .button {
+    @apply inline-flex min-h-12 shrink-0 items-center justify-center gap-5 rounded-lg px-6 py-3.5 text-sm font-semibold transition-colors;
+  }
+  .button svg {
+    @apply size-4;
+  }
+  .button-dark {
+    @apply bg-foreground text-white hover:bg-[#2a3335];
+    box-shadow: 0 2px 3px #11161908;
+  }
+  .button-dark:focus-visible {
+    @apply outline-foreground;
+  }
+  .header-contact {
+    @apply min-h-11 justify-self-end gap-3 px-4.5 py-3 text-xs;
+  }
+  .header-contact svg {
+    @apply ml-1 size-3.5;
+  }
+  .status-dot {
+    @apply inline-block size-[5px] shrink-0 rounded-full bg-accent;
+    box-shadow: 0 0 10px #b5f52325;
+  }
+  .hero {
+    @apply relative;
+    padding: 70px 28px 66px;
+  }
+  .hero-copy {
+    @apply relative z-10;
+  }
+
+  .eyebrow {
+    @apply font-mono uppercase text-muted;
+    font-size: 11px;
+    letter-spacing: 0.055em;
+    line-height: 1.6;
+  }
+  .hero h1 {
+    @apply mt-6 font-semibold;
+    font-size: clamp(64px, 6.6vw, 108px);
+    line-height: 1.035;
+    letter-spacing: -0.067em;
+  }
+  .hand-underline {
+    @apply relative isolate whitespace-nowrap;
+  }
+  .hand-underline svg {
+    @apply absolute -z-10;
+    left: -5px;
+    bottom: -9px;
+    width: calc(100% + 12px);
+    height: 19px;
+    overflow: visible;
+  }
+  .hand-underline path {
+    stroke: var(--accent);
+    stroke-width: 2.6;
+    fill: none;
+    stroke-linecap: round;
+  }
+  .hero-description {
+    @apply mt-8 text-muted;
+    max-width: 660px;
+    font-size: 17px;
+    line-height: 1.65;
+    letter-spacing: -0.02em;
+    text-wrap: pretty;
+  }
+  .hero-actions {
+    @apply mt-8 flex flex-wrap items-center gap-4;
+  }
+  .button-text {
+    @apply gap-4 font-medium hover:bg-foreground/5;
+  }
+  .handwritten {
+    @apply font-handwriting;
+    font-size: 26px;
+    line-height: 1.05;
+    letter-spacing: 0.01em;
+  }
+  .section-anchor {
+    scroll-margin-top: 24px;
+  }
+  .section-label {
+    @apply flex items-center gap-5 font-mono uppercase;
+    min-height: 90px;
+    padding-inline: 28px;
+    font-size: 11px;
+    line-height: 1.5;
+    letter-spacing: 0.025em;
+  }
+  .section-label h2 {
+    @apply shrink-0 border-l-2 border-foreground pl-4 font-medium;
+  }
+  .section-rule {
+    @apply h-px flex-1 bg-line;
+  }
+  .section-label > p {
+    @apply shrink-0 text-muted;
+    font-size: 10px;
+    letter-spacing: 0.025em;
+  }
+  .work-section {
+    @apply pt-5;
+  }
+  .project-row {
+    @apply grid border-b border-line;
+    grid-template-columns: 40px minmax(0, 1.14fr) minmax(340px, 1fr) 95px;
+    column-gap: 32px;
+    padding: 44px 28px;
+    align-items: center;
+  }
+  .project-row:first-child {
+    @apply pt-4;
+  }
+  .project-number {
+    @apply self-start pt-1 font-mono text-muted;
+    font-size: 21px;
+    line-height: 1.4;
+    letter-spacing: -0.05em;
+  }
+  .project-copy h3 {
+    @apply font-semibold;
+    font-size: 29px;
+    line-height: 1.2;
+    letter-spacing: -0.055em;
+  }
+  .project-copy h3 a {
+    @apply transition-colors hover:text-muted;
+  }
+  .project-role {
+    @apply mt-2 text-sm font-medium;
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+  }
+  .project-description,
+  .project-contributions {
+    @apply mt-4 text-muted;
+    max-width: 570px;
+    font-size: 14px;
+    line-height: 1.8;
+    text-wrap: pretty;
+  }
+  .project-contributions {
+    @apply space-y-2.5;
+  }
+  .project-contributions li {
+    @apply relative pl-4;
+  }
+  .project-contributions li::before {
+    @apply absolute left-0 size-[3px] rounded-full bg-muted/60 content-[""];
+    top: 0.8em;
+  }
+  .project-arrow {
+    @apply mt-5 inline-flex min-h-10 items-center gap-3 text-xs font-medium text-foreground transition-colors hover:text-muted;
+  }
+  .project-availability {
+    @apply mt-5 text-xs leading-relaxed text-muted;
+  }
+  .project-arrow svg {
+    @apply h-4 w-5 transition-transform;
+  }
+  .project-arrow:hover svg {
+    @apply translate-x-1;
+  }
+  .project-meta {
+    @apply flex flex-col gap-2.5 self-start pt-2 font-mono uppercase text-muted;
+    font-size: 10px;
+    line-height: 1.5;
+  }
+  .project-meta > span {
+    @apply whitespace-nowrap;
+  }
+  .preview-link {
+    @apply relative flex w-full items-center justify-center overflow-hidden rounded-xl border border-foreground/[.035] p-5;
+    background: #e9efe6;
+  }
+  .preview-link[data-project="PlayPilot"] {
+    background: #e7edeb;
+  }
+  .project-preview {
+    @apply w-full overflow-hidden rounded-lg border border-foreground/10 bg-white transition-transform duration-300;
+    box-shadow: 0 12px 28px #11161912;
+  }
+  .preview-link[href]:hover .project-preview {
+    transform: translateY(-3px);
+  }
+  .preview-browser-bar {
+    @apply relative flex h-7 items-center justify-center border-b border-foreground/10 bg-[#f5f6f3] px-10 font-mono text-[9px] text-muted;
+  }
+  .preview-browser-dots {
+    @apply absolute left-2.5 flex gap-1;
+  }
+  .preview-browser-dots span {
+    @apply size-[4px] rounded-full bg-foreground/15;
+  }
+  .project-preview picture {
+    display: block;
+  }
+  .project-screenshot {
+    @apply block h-auto w-full;
+    aspect-ratio: 36 / 25;
+    object-fit: cover;
+  }
+  .preview-visit {
+    @apply absolute right-2.5 top-2.5 flex size-7 items-center justify-center rounded-full border border-foreground/5 bg-white/90 text-foreground transition-colors;
+  }
+  .preview-visit svg {
+    @apply size-3.5;
+  }
+  .preview-link[href]:hover .preview-visit {
+    @apply bg-white;
+  }
+
+  .experience-section {
+    padding-top: 28px;
+    padding-bottom: 48px;
+  }
+  .experience-intro {
+    @apply px-7;
+  }
+  .experience-intro h3 {
+    @apply font-semibold;
+    font-size: clamp(30px, 3vw, 42px);
+    line-height: 1.15;
+    letter-spacing: -0.05em;
+    text-wrap: balance;
+  }
+  .experience-years {
+    @apply mt-4 font-mono text-xs text-muted;
+  }
+  .experience-intro > p:last-child {
+    @apply mt-2 text-sm leading-relaxed text-muted;
+  }
+  .chapters {
+    @apply mt-9 grid grid-cols-4;
+  }
+  .chapters > li {
+    @apply flex gap-5 px-7 py-3;
+  }
+  .chapters > li:not(:first-child) {
+    @apply border-l border-line;
+  }
+  .chapter-number {
+    @apply shrink-0 pt-0.5 font-mono text-xl text-muted;
+    line-height: 1.2;
+    letter-spacing: -0.05em;
+  }
+  .chapters h4 {
+    @apply text-[15px] font-semibold;
+    line-height: 1.45;
+    letter-spacing: -0.03em;
+  }
+  .chapter-dates {
+    @apply mt-2 font-mono text-[11px] text-muted;
+  }
+  .chapter-companies {
+    @apply mt-3 text-[13px] font-medium;
+    line-height: 1.5;
+  }
+  .chapter-description {
+    @apply mt-2 text-[13px] leading-[1.75] text-muted;
+    text-wrap: pretty;
+  }
+  .resume-link {
+    @apply mt-6 ml-7 inline-flex min-h-11 items-center gap-3 text-sm font-medium underline decoration-foreground/40 underline-offset-4 transition-colors hover:text-muted;
+  }
+  .resume-link svg {
+    @apply size-3.5;
+  }
+  .principles-section {
+    @apply border-t border-line;
+    padding-top: 8px;
+    padding-bottom: 42px;
+  }
+  .principles {
+    @apply grid grid-cols-3;
+  }
+  .principles > article {
+    @apply flex gap-6 px-7 py-4;
+  }
+  .principles > article:not(:first-child) {
+    @apply border-l border-line;
+  }
+  .principle-icon {
+    @apply size-12 shrink-0;
+    stroke-width: 0.85;
+  }
+  .principles h3 {
+    @apply text-[23px] font-semibold;
+    line-height: 1.25;
+    letter-spacing: -0.05em;
+  }
+  .principles p {
+    @apply mt-3 text-sm leading-[1.75] text-muted;
+    max-width: 370px;
+    text-wrap: pretty;
+  }
+  .about-section {
+    @apply border-t border-line;
+    padding-top: 8px;
+    padding-bottom: 52px;
+  }
+  .about-intro {
+    @apply px-7;
+  }
+  .about-intro h3 {
+    @apply font-semibold;
+    font-size: clamp(28px, 2.6vw, 39px);
+    line-height: 1.2;
+    letter-spacing: -0.05em;
+  }
+  .about-intro p {
+    @apply mt-5 text-base leading-[1.7] text-muted;
+    max-width: 750px;
+    letter-spacing: -0.02em;
+    text-wrap: pretty;
+  }
+  .interests {
+    @apply mt-10 grid grid-cols-5;
+  }
+  .interest {
+    @apply flex items-start gap-4 px-7 py-3;
+  }
+  .interest:not(:first-child) {
+    @apply border-l border-line;
+  }
+  .interest > svg {
+    @apply size-8 shrink-0;
+    stroke-width: 1.1;
+  }
+  .interest h4 {
+    @apply text-[13px] font-semibold;
+    line-height: 1.5;
+    letter-spacing: -0.025em;
+  }
+  .interest p {
+    @apply mt-1 text-xs leading-[1.65] text-muted;
+  }
+  .contact-section {
+    @apply relative mx-auto overflow-hidden rounded-2xl text-white;
+    width: calc(100% - 2 * var(--page-gutter));
+    max-width: 1680px;
+    padding: 38px 48px 44px;
+    margin-top: 12px;
+    background: radial-gradient(ellipse at 55% 150%, #223030, #101818 72%);
+  }
+  .contact-label {
+    @apply flex items-center gap-5 font-mono text-[11px] uppercase;
+    padding-right: 230px;
+  }
+  .contact-label h2 {
+    @apply shrink-0 border-l-2 border-white/80 pl-4;
+  }
+  .contact-label > span {
+    @apply h-px flex-1 bg-white/25;
+  }
+  .contact-content {
+    @apply mt-12 grid items-center gap-12;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .contact-content h3 {
+    @apply font-semibold;
+    font-size: clamp(38px, 3.4vw, 58px);
+    line-height: 1.08;
+    letter-spacing: -0.055em;
+  }
+  .contact-links {
+    @apply flex items-center gap-8;
+  }
+  .social-link {
+    @apply inline-flex min-h-12 items-center gap-2.5 whitespace-nowrap text-sm text-white/80 underline-offset-4 transition-colors hover:text-white hover:underline;
+  }
+  .social-link svg {
+    @apply size-5;
+  }
+  .contact-mail {
+    @apply relative;
+  }
+  .button-accent {
+    @apply min-h-13 gap-5 bg-accent px-7 text-foreground hover:bg-[#c5ff4a];
+    box-shadow: 0 3px 18px #b5f52b0c;
+  }
+  .contact-email {
+    @apply whitespace-nowrap;
+  }
+  .contact-doodle {
+    @apply pointer-events-none absolute right-2;
+    bottom: calc(100% + 15px);
+    font-size: 22px;
+    transform: rotate(-7deg);
+  }
+  .contact-doodle svg {
+    @apply -mt-1 ml-16 h-8 w-11;
+  }
+  .contact-section a:focus-visible {
+    @apply outline-accent;
+  }
+  .site-footer {
+    @apply mt-8 mb-5 flex min-h-20 items-center justify-between gap-6 border-t border-line px-7;
+  }
+  .site-footer .brand {
+    @apply text-sm;
+  }
+  .site-footer > p {
+    @apply font-mono text-[10px] uppercase text-muted;
+    letter-spacing: 0.03em;
+  }
+  .skip-link {
+    @apply fixed left-4 top-4 z-50 -translate-y-24 rounded bg-foreground px-4 py-3 text-white focus:translate-y-0;
+  }
+}
+
+@media (min-width: 1600px) {
+  .hero {
+    padding-block: 88px;
+  }
+  .project-description,
+  .project-contributions {
+    font-size: 15px;
+  }
+  .project-row {
+    padding-block: 52px;
+  }
+}
+
+@media (max-width: 1279px) {
+  .hero {
+    padding: 60px 20px;
+  }
+  .hero h1 {
+    font-size: clamp(60px, 7vw, 85px);
+  }
+  .hero-description {
+    max-width: 620px;
+    font-size: 16px;
+  }
+  .project-row {
+    grid-template-columns: 32px minmax(0, 1.1fr) minmax(310px, 1fr) 80px;
+    gap: 24px;
+    padding-inline: 20px;
+  }
+  .project-copy h3 {
+    font-size: 26px;
+  }
+  .project-meta {
+    font-size: 9px;
+  }
+  .chapters > li {
+    gap: 16px;
+    padding-inline: 24px;
+  }
+  .principles > article {
+    gap: 20px;
+    padding-inline: 24px;
+  }
+  .principles h3 {
+    font-size: 21px;
+  }
+  .principle-icon {
+    width: 43px;
+    height: 43px;
+  }
+  .interest {
+    padding-inline: 20px;
+    gap: 12px;
+  }
+  .interest p {
+    max-width: 160px;
+  }
+}
+
+@media (max-width: 1099px) {
+  .main-nav {
+    gap: 25px;
+  }
+  .project-row {
+    grid-template-columns: 28px minmax(0, 1fr) minmax(280px, 0.95fr);
+    gap: 12px 24px;
+    padding-block: 36px;
+  }
+  .project-number {
+    grid-row: 1 / span 2;
+  }
+  .project-copy {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .project-meta {
+    grid-column: 2;
+    grid-row: 2;
+    flex-direction: row;
+    gap: 12px;
+    padding-top: 0;
+  }
+  .preview-link {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+  }
+  .project-description,
+  .project-contributions {
+    font-size: 13px;
+    line-height: 1.8;
+  }
+  .project-role {
+    font-size: 13px;
+  }
+  .chapters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 28px;
+  }
+  .chapters > li {
+    padding: 12px 28px;
+  }
+  .chapters > li:nth-child(3) {
+    border-left: 0;
+  }
+  .chapter-description {
+    max-width: 310px;
+  }
+  .principles > article {
+    display: block;
+  }
+  .principle-icon {
+    margin-bottom: 20px;
+  }
+  .about-intro h3 {
+    font-size: 29px;
+  }
+  .about-intro p {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 899px) {
+  .site-header {
+    gap: 20px;
+  }
+  .brand {
+    font-size: 15px;
+  }
+  .main-nav {
+    gap: 20px;
+  }
+  .main-nav a {
+    font-size: 12px;
+  }
+  .header-contact {
+    padding-inline: 14px;
+  }
+  .hero {
+    padding: 52px 16px;
+  }
+  .hero h1 {
+    font-size: clamp(52px, 7.5vw, 67px);
+  }
+  .eyebrow {
+    font-size: 10px;
+  }
+  .hero-description {
+    font-size: 15px;
+    max-width: 520px;
+  }
+  .section-label {
+    min-height: 84px;
+    padding-inline: 20px;
+    font-size: 10px;
+    gap: 16px;
+  }
+  .section-label > p {
+    font-size: 9px;
+  }
+  .project-row {
+    gap: 12px 20px;
+    padding-inline: 16px;
+    grid-template-columns: 26px minmax(0, 1fr) 270px;
+  }
+  .project-copy h3 {
+    font-size: 24px;
+  }
+  .project-description,
+  .project-contributions {
+    font-size: 13px;
+  }
+}
+
+@media (min-width: 701px) and (max-width: 1023px) {
+  .interests {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: 24px;
+  }
+  .interest:nth-child(4) {
+    border-left: 0;
+  }
+}
+
+@media (max-width: 700px) {
+  :root {
+    --page-gutter: 22px;
+  }
+  html {
+    scroll-padding-top: 136px;
+  }
+  .site-header {
+    grid-template-columns: 1fr auto;
+    padding-block: 15px 8px;
+    gap: 0 16px;
+    min-height: 118px;
+  }
+  .brand {
+    font-size: 15px;
+  }
+  .header-contact {
+    min-height: 42px;
+    font-size: 11px;
+    padding: 10px 14px;
+  }
+  .main-nav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 9px;
+  }
+  .main-nav a {
+    font-size: 12px;
+    min-height: 39px;
+    padding-inline: 2px;
+  }
+  .main-nav a::after {
+    bottom: 2px;
+  }
+  .hero {
+    display: block;
+    padding: 48px 2px 44px;
+  }
+  .eyebrow {
+    font-size: 9px;
+    max-width: 300px;
+    line-height: 1.8;
+    letter-spacing: 0.025em;
+  }
+  .hero h1 {
+    margin-top: 22px;
+    font-size: clamp(35px, 9.2vw, 61px);
+    line-height: 1.08;
+    letter-spacing: -0.064em;
+  }
+  .hero-description {
+    font-size: 14px;
+    line-height: 1.8;
+    margin-top: 26px;
+    max-width: 490px;
+  }
+  .hero-actions {
+    margin-top: 27px;
+    gap: 9px;
+  }
+  .hero-actions .button {
+    font-size: 12px;
+    padding: 13px 18px;
+    gap: 15px;
+    min-height: 46px;
+  }
+  .hand-underline svg {
+    bottom: -5px;
+    height: 12px;
+  }
+  .work-section {
+    padding-top: 13px;
+  }
+  .section-label {
+    min-height: 86px;
+    padding-inline: 2px;
+    gap: 12px;
+    font-size: 10px;
+  }
+  .section-label h2 {
+    padding-left: 11px;
+  }
+  .section-label > p {
+    font-size: 8px;
+    max-width: 125px;
+    text-align: right;
+    line-height: 1.6;
+  }
+  .project-row {
+    grid-template-columns: 24px minmax(0, 1fr);
+    gap: 12px 14px;
+    padding: 29px 2px 32px;
+  }
+  .project-row:first-child {
+    padding-top: 0;
+  }
+  .project-number {
+    font-size: 18px;
+    grid-row: 1 / span 2;
+  }
+  .project-copy {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .project-copy h3 {
+    font-size: 26px;
+    line-height: 1.2;
+  }
+  .project-role {
+    font-size: 13px;
+    margin-top: 8px;
+  }
+  .project-description,
+  .project-contributions {
+    font-size: 14px;
+    line-height: 1.8;
+    margin-top: 16px;
+  }
+  .project-arrow {
+    margin-top: 16px;
+    font-size: 12px;
+  }
+  .project-meta {
+    grid-column: 2;
+    grid-row: 2;
+    font-size: 9px;
+    gap: 10px;
+    margin-top: 0;
+  }
+  .preview-link {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    margin-top: 13px;
+    border-radius: 10px;
+    padding: 13px;
+  }
+  .preview-visit {
+    width: 27px;
+    height: 27px;
+    top: 7px;
+    right: 7px;
+  }
+  .experience-section {
+    padding-top: 12px;
+    padding-bottom: 32px;
+  }
+  .experience-intro {
+    padding-inline: 2px;
+  }
+  .experience-intro h3 {
+    font-size: 31px;
+    line-height: 1.2;
+    max-width: 360px;
+    text-wrap: pretty;
+  }
+  .experience-years {
+    font-size: 11px;
+    margin-top: 16px;
+  }
+  .experience-intro > p:last-child {
+    font-size: 13px;
+    line-height: 1.7;
+    margin-top: 9px;
+  }
+  .chapters {
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin-top: 24px;
+  }
+  .chapters > li,
+  .chapters > li:not(:first-child),
+  .chapters > li:nth-child(3) {
+    border-left: 0;
+    padding: 24px 2px;
+    gap: 22px;
+  }
+  .chapters > li:not(:last-child) {
+    border-bottom: 1px solid var(--line);
+  }
+  .chapter-number {
+    font-size: 18px;
+  }
+  .chapters h4 {
+    font-size: 17px;
+  }
+  .chapter-dates {
+    font-size: 10px;
+    margin-top: 8px;
+  }
+  .chapter-companies {
+    font-size: 13px;
+    margin-top: 10px;
+  }
+  .chapter-description {
+    font-size: 13px;
+    line-height: 1.8;
+    margin-top: 9px;
+    max-width: 460px;
+  }
+  .resume-link {
+    margin-top: 6px;
+    margin-left: 2px;
+    font-size: 13px;
+    min-height: 46px;
+  }
+  .principles-section {
+    padding-top: 0;
+    padding-bottom: 32px;
+  }
+  .principles {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .principles > article,
+  .principles > article:not(:first-child) {
+    display: flex;
+    border-left: 0;
+    padding: 21px 2px;
+    gap: 23px;
+  }
+  .principle-icon {
+    width: 43px;
+    height: 43px;
+    margin-bottom: 0;
+  }
+  .principles h3 {
+    font-size: 22px;
+  }
+  .principles p {
+    font-size: 14px;
+    line-height: 1.75;
+    margin-top: 10px;
+    max-width: 450px;
+  }
+  .about-section {
+    padding-top: 0;
+    padding-bottom: 38px;
+  }
+  .about-intro {
+    padding-inline: 2px;
+  }
+  .about-intro h3 {
+    font-size: clamp(23px, 6.2vw, 34px);
+    line-height: 1.25;
+  }
+  .about-intro p {
+    font-size: 14px;
+    line-height: 1.8;
+    margin-top: 18px;
+  }
+  .interests {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 26px 0;
+    margin-top: 32px;
+  }
+  .interest {
+    padding: 3px 15px;
+    gap: 12px;
+  }
+  .interest:nth-child(odd) {
+    border-left: 0;
+    padding-left: 2px;
+  }
+  .interest:nth-child(even),
+  .interest:nth-child(4) {
+    border-left: 1px solid var(--line);
+  }
+  .interest > svg {
+    width: 27px;
+    height: 27px;
+  }
+  .interest h4 {
+    font-size: 12px;
+  }
+  .interest p {
+    font-size: 11px;
+    line-height: 1.7;
+    margin-top: 5px;
+  }
+  .site-footer {
+    min-height: 96px;
+    margin-top: 25px;
+    margin-bottom: 8px;
+    padding-inline: 2px;
+    gap: 18px;
+  }
+  .site-footer .brand {
+    font-size: 13px;
+  }
+  .site-footer > p {
+    font-size: 8px;
+    max-width: 125px;
+    text-align: right;
+    line-height: 1.7;
+  }
+}
+
+@media (min-width: 480px) and (max-width: 700px) {
+  .chapters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 26px;
+  }
+  .chapters > li {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 374px) {
+  :root {
+    --page-gutter: 18px;
+  }
+  .hero h1 {
+    font-size: 32px;
+  }
+  .eyebrow {
+    font-size: 8px;
+  }
+  .hero-actions {
+    gap: 0;
+  }
+  .hero-actions .button {
+    gap: 11px;
+    padding-inline: 13px;
+  }
+  .project-copy h3 {
+    font-size: 24px;
+  }
+  .project-row {
+    column-gap: 12px;
+  }
+  .interest {
+    gap: 9px;
+    padding-inline: 11px;
+  }
+  .interest h4 {
+    font-size: 11px;
+  }
+  .interest p {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 1279px) {
+  .contact-section {
+    padding-inline: 36px;
+  }
+  .contact-content {
+    gap: 32px;
+  }
+  .contact-links {
+    gap: 25px;
+  }
+}
+
+@media (max-width: 1099px) {
+  .contact-content h3 {
+    font-size: 38px;
+  }
+  .contact-links {
+    gap: 22px;
+  }
+  .social-link {
+    font-size: 13px;
+  }
+  .button-accent {
+    padding-inline: 23px;
+    font-size: 13px;
+  }
+  .contact-doodle {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 899px) {
+  .contact-content {
+    grid-template-columns: 1fr;
+    margin-top: 30px;
+    gap: 28px;
+  }
+  .contact-content h3 {
+    font-size: 41px;
+  }
+  .contact-links {
+    justify-content: space-between;
+    gap: 25px;
+    padding-top: 24px;
+    border-top: 1px solid #ffffff24;
+  }
+  .contact-label {
+    padding-right: 0;
+  }
+  .contact-doodle {
+    display: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .contact-section {
+    padding: 28px 26px 30px;
+    margin-top: 0;
+    border-radius: 13px;
+  }
+  .contact-label {
+    gap: 15px;
+    font-size: 10px;
+  }
+  .contact-label h2 {
+    padding-left: 11px;
+  }
+  .contact-content {
+    margin-top: 27px;
+    gap: 25px;
+  }
+  .contact-content h3 {
+    font-size: clamp(34px, 9vw, 48px);
+  }
+  .contact-links {
+    gap: 18px;
+  }
+  .social-link {
+    font-size: 12px;
+    gap: 8px;
+  }
+  .social-link svg {
+    width: 18px;
+    height: 18px;
+  }
+  .button-accent {
+    min-height: 49px;
+    padding-inline: 20px;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 479px) {
+  .contact-links {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 10px 28px;
+  }
+  .contact-mail {
+    flex-basis: 100%;
+    margin-top: 6px;
+  }
+  .contact-email {
+    width: 100%;
+    font-size: 14px;
+  }
+  .social-link {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 374px) {
+  .contact-section {
+    padding-inline: 22px;
+  }
+  .contact-content h3 {
+    font-size: 31px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: 0s !important;
+  }
 }
