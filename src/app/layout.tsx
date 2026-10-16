@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { pageDescription, pageTitle } from "@/lib/profile";
 import "./globals.css";
 
 const manrope = localFont({
@@ -27,20 +28,18 @@ const caveat = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://yulian.me"),
-  title: "Yulian Karapetkov — Software Engineer",
-  description:
-    "I’m Yulian, a software engineer based in Plovdiv, Bulgaria. A little about my work, music, and psychotherapy studies.",
+  title: pageTitle,
+  description: pageDescription,
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     url: "https://yulian.me",
-    title: "Yulian Karapetkov — Software Engineer",
-    description:
-      "I’m Yulian, a software engineer based in Plovdiv, Bulgaria. A little about my work, music, and psychotherapy studies.",
+    title: pageTitle,
+    description: pageDescription,
     siteName: "Yulian Karapetkov",
     locale: "en_US",
   },
-  twitter: { card: "summary", title: "Yulian Karapetkov — Software Engineer" },
+  twitter: { card: "summary", title: pageTitle, description: pageDescription },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { profileSchema } from "@/lib/profile";
 import { ProjectPreview } from "@/components/project-previews";
 import { HandArrow, Icon, type IconName } from "@/components/icons";
 
@@ -155,6 +156,12 @@ function Brand({ withCode = false }: { withCode?: boolean }) {
 export default function Home() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(profileSchema).replace(/</g, "\\u003c"),
+        }}
+      />
       <a href="#main" className="skip-link">
         Skip to content
       </a>
@@ -198,9 +205,10 @@ export default function Home() {
                 </span>
               </h1>
               <p className="hero-description">
-                I’m a software engineer based in Plovdiv, Bulgaria. Over the
-                past 12+ years, I’ve worked across frontend, backend, and
-                architecture, and led small engineering teams.
+                I’m a software engineer and full-stack developer based in
+                Plovdiv, Bulgaria. Over the past 12+ years, I’ve worked across
+                front-end, backend, and architecture, and led small engineering
+                teams.
               </p>
               <div className="hero-actions">
                 <a href="#work" className="button button-dark">
@@ -323,7 +331,8 @@ export default function Home() {
               <h3>Where I’ve worked.</h3>
               <p className="experience-years">2013 → 2026</p>
               <p>
-                A brief version. You can request my CV for the full details.
+                Selected for the Toptal Talent Network in 2019. You can request
+                my CV for the full work history.
               </p>
             </div>
             <ol className="chapters">
