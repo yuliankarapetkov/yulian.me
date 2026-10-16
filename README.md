@@ -56,13 +56,16 @@ because its default optimizer needs a server. Project screenshots use native
 explicit dimensions, lazy loading, and asynchronous decoding. This avoids adding
 the Next.js Image client component to an otherwise static page.
 
-For Vercel, import this repository, retain the Next.js framework preset, and use
-`npm run build`. Vercel supports the configured static export. Connect `yulian.me`
-in the project's domain settings when ready.
+GitHub Pages deploys through `.github/workflows/pages.yml`. Every push to `main`
+installs dependencies with Node.js 24, runs lint and type checks, builds the static
+export, and deploys `out/`. The workflow can also be started manually from Actions.
 
-The same `out/` directory can be hosted on GitHub Pages or Cloudflare Pages.
-GitHub Pages requires a deployment workflow; a repository-path URL also requires
-a matching Next.js `basePath`. A custom root domain such as `yulian.me` does not.
+In the repository's Pages settings, the publishing source is GitHub Actions and
+the custom domain is `yulian.me`. DNS must point that domain to GitHub Pages.
+This configuration serves the site at the domain root; a repository-path URL
+would require a matching Next.js `basePath` and asset paths.
+
+The same `out/` directory can also be hosted on Vercel or Cloudflare Pages.
 
 ## Portfolio content and assets
 
